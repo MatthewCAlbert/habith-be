@@ -31,10 +31,10 @@ describe('Auth Activity', () => {
         request.post('/v1/auth/register').send(userData).then((response)=>{
             expect(response.status).toBe(200);
             const {user, token: fetchedToken, expiresIn} = response?.body?.data;
-            const {username, name} = user;
+            const {username, name, email} = user;
             expect(name).toMatch(userData.name);
+            expect(email).toMatch(userData.email);
             expect(username).toMatch(userData.username);
-            expect(fetchedToken).toMatch(/^Bearer .*/);
             expect(expiresIn).toBe('1d');
             done()
         });
@@ -50,8 +50,7 @@ describe('Auth Activity', () => {
         }).then( response => {
             expect(response.status).toBe(200);
             const {token: fetchedToken, expiresIn} = response?.body?.data;
-            expect(fetchedToken).toMatch(/^Bearer .*/);
-            token = fetchedToken;
+            token = 'Bearer '+fetchedToken;
             done();
         });
 
@@ -76,7 +75,7 @@ describe('Auth Activity', () => {
     // Test change password
     it('Change user password', (done) => {
     
-        request.put('/v1/auth/change-password').set('Authorization',`${token}`).send({
+        request.post('/v1/auth/change-password').set('Authorization',`${token}`).send({
             oldPassword: userData?.password,
             newPassword: newPassword,
             rePassword: newPassword,

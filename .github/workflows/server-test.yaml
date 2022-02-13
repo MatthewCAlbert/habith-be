@@ -1,0 +1,52 @@
+name: Server Test
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore: ["README.md"]
+    
+  pull_request:
+    branches: [ main ]
+    paths-ignore: ["README.md"]
+
+env:
+  NODE_ENV: "development"
+  JWT_SECRET: "secret"
+  JWT_ACCESS_EXPIRATION: "1d"
+  PG_CONN_STRING: ${{ secrets.PG_STRING }}
+  COCKROACH_CLUSTER_NAME: ${{ secrets.COCKROACH_CLUSTER_NAME }}
+  PG_ROOT_CA: ${{ secrets.PG_ROOT_CA }}
+
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip test]') }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - uses: c-hive/gha-yarn-cache@v2
+        with:
+          directory: server
+
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Prepare Environment
+        uses: CallePuzzle/envvar-to-dotenv-action@v1.0.0
+        with:
+          variableNames: NODE_ENV,JWT_SECRET,JWT_ACCESS_EXPIRATION,PG_CONN_STRING,COCKROACH_CLUSTER_NAME,PG_ROOT_CA
+
+      - name: Test
+        run: yarn run test
+
+      - name: Build
+        run: |
+          yarn run build
+      - name: Post Build Test
+        run: yarn run test:build

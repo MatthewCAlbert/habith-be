@@ -31,5 +31,4 @@ db/*.yml
 
 Dockerfile-copy
 
-.github
 /*.crt

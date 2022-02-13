@@ -1,5 +1,6 @@
 import { createConnection, getConnection } from 'typeorm';
 import logger from '../utils/logger';
+const ormConfig = require('../ormconfig');
 
 async function connect(){
     if( process.env.NODE_ENV !== 'production' ){
@@ -7,7 +8,7 @@ async function connect(){
     }
   
     try {
-        const connection = await createConnection();
+        const connection = await createConnection(ormConfig);
         logger.info('Database connected!');
         return connection;
     } catch (error) {

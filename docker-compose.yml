@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  fullstack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: habith-be
+    container_name: habith-be
+    volumes:
+      - ./root.crt:/app/root.crt
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      # host:docker
+      - "5000:5000"

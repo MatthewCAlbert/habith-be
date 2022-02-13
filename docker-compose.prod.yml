@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  fullstack:
+    image: ghcr.io/matthewcalbert/habith-be:latest
+    container_name: habith-be
+    volumes:
+      - ./root.crt:/app/root.crt
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      # host:docker
+      - "5000:5000"

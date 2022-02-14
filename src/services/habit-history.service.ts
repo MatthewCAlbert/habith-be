@@ -1,6 +1,6 @@
-import { HabitHistory, IHabitHistory } from '@/data/entities/habit-history.entity';
-import ApiError from '@/utils/api-error';
-import { datetimeToDateOnly } from '@/utils/common';
+import { HabitHistory, IHabitHistory } from '../data/entities/habit-history.entity';
+import ApiError from '../utils/api-error';
+import { datetimeToDateOnly } from '../utils/common';
 import { StatusCodes } from 'http-status-codes';
 
 const HabitHistoryService = {

@@ -1,10 +1,10 @@
 import { sendResponse } from '../utils/api';
 import { IController } from '../types/express';
-import HabitHistoryService from '@/services/habit-history.service';
-import ApiError from '@/utils/api-error';
+import HabitHistoryService from '../services/habit-history.service';
+import ApiError from '../utils/api-error';
 import { StatusCodes } from 'http-status-codes';
-import HabitService from '@/services/habit.service';
-import { User } from '@/data/entities/user.entity';
+import HabitService from '../services/habit.service';
+import { User } from '../data/entities/user.entity';
 
 const checkHabitOwnership = async (user: User, habitId: string) => {
     if ( !(await HabitService.getOneById(user, habitId, false)) ) {

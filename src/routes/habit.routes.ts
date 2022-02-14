@@ -4,7 +4,7 @@ import habitSchemas from '../validations/habit.validation';
 import jwtTokenMiddleware from '../middlewares/jwttoken.middleware';
 import validator from '../middlewares/validator.middleware';
 import { RouterMap } from '../types/express';
-import HabitHistoryController from '@/controllers/habit-history.controller';
+import HabitHistoryController from '../controllers/habit-history.controller';
 
 // Habit Routes /v1/habit
 const habitRoutes: RouterMap = [

@@ -1,8 +1,8 @@
 import { sendResponse } from '../utils/api';
 import { IController } from '../types/express';
-import HabitService from '@/services/habit.service';
-import { IHabit } from '@/data/entities/habit.entity';
-import ApiError from '@/utils/api-error';
+import HabitService from '../services/habit.service';
+import { IHabit } from '../data/entities/habit.entity';
+import ApiError from '../utils/api-error';
 import { StatusCodes } from 'http-status-codes';
 
 const HabitController: IController = {

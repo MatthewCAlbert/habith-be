@@ -1,5 +1,5 @@
-import { Habit, IHabit } from '@/data/entities/habit.entity';
-import ApiError from '@/utils/api-error';
+import { Habit, IHabit } from '../data/entities/habit.entity';
+import ApiError from '../utils/api-error';
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../data/entities/user.entity';
 

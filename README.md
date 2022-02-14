@@ -6,6 +6,7 @@ Monolithic Backend for Rapid Development Only
 
 - Express
 - Typescript
+- TypeORM
 - JWT
 - Joi
 - Winston 🐒

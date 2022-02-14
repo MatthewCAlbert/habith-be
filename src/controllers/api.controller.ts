@@ -18,18 +18,14 @@ class ApiController{
     }
   
     static async allUser(req: express.Request, res: express.Response, next: express.NextFunction) {
-        try {
-            const result = await User.find();
-            return sendResponse(res, {
-                data: result
-            })
-        } catch (error) {
-            next(new ApiError(404, 'no user found'))
-        }
+        const result = await User.find();
+        return sendResponse(res, {
+            data: result
+        })
     }
 
     static clearDb(req: express.Request, res: express.Response, next: express.NextFunction) {
-        next(new ApiError(httpStatus.FORBIDDEN, 'feature just not available yet'));
+        throw new ApiError(httpStatus.FORBIDDEN, 'feature just not available yet');
     }
 
 }

@@ -12,7 +12,9 @@ const envVarsSchema = Joi.object()
         PORT_TESTING: Joi.number().default(5001),
 
         JWT_SECRET: Joi.string().required().description('JWT secret key'),
-        JWT_ACCESS_EXPIRATION: Joi.string().default('1d').description('jwt expiration')
+        JWT_ACCESS_EXPIRATION: Joi.string().default('1d').description('jwt expiration'),
+
+        CORS_WHITELIST: Joi.string().default('*')
     })
     .unknown();
 
@@ -24,6 +26,7 @@ if (error) {
 
 type EnvConfig = {
   env: string,
+  corsWhitelist: string,
   port: {
     normal: string,
     test: string,
@@ -36,6 +39,7 @@ type EnvConfig = {
 
 const config: EnvConfig = {
     env: nodeEnv,
+    corsWhitelist: envVars?.CORS_WHITELIST,
     port: {
         normal: envVars?.PORT,
         test: envVars?.PORT_TESTING,

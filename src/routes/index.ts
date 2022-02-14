@@ -1,42 +1,46 @@
-import express from 'express';
-import apiRouter from './api.routes';
-import authRoute from './auth.routes';
-import habitRoute from './habit.routes';
-import webRouter from './web.routes';
+import express, { Router } from 'express';
+import AdapterWrapperService from '../services/adapter-wrapper.service';
+import { RouterMap } from '../types/express';
+import apiRoutes from './api.routes';
+import authRoutes from './auth.routes';
+import habitRoutes from './habit.routes';
+import webRoutes from './web.routes';
 
-const apiRoutes = [
+const wrapRoutesMap = (routes: RouterMap) => {
+    const router = Router();
+    routes.forEach( route => {
+        const handlers = route.handlers.map( handler => (
+            AdapterWrapperService.wrapHttpHandler(handler)
+        ))
+        router?.[route.method](route.endpoint, ...handlers);
+    });
+    return router;
+}
+
+const endpoints = [
     {
         path: '',
         version: '1',
-        router: apiRouter,
+        routes: apiRoutes,
     },
     {
         path: 'auth',
         version: '1',
-        router: authRoute,
+        routes: authRoutes,
     },
     {
         path: 'habit',
         version: '1',
-        router: habitRoute,
-    }
-];
-
-const webRoutes = [
-    {
-        path: '',
-        router: webRouter
+        routes: habitRoutes,
     }
 ];
 
 const router = express.Router();
 
-apiRoutes.forEach((route)=>{
-    router.use(`/v${route.version}/${route.path}`, route.router);
+endpoints.forEach((route)=>{
+    router.use(`/v${route.version}/${route.path}`, wrapRoutesMap(route.routes));
 })
 
-webRoutes.forEach((route)=>{
-    router.use(`/${route.path}`, route.router);
-})
+router.use('/', wrapRoutesMap(webRoutes));
 
 export default router;

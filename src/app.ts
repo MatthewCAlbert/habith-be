@@ -7,7 +7,7 @@ import compression from 'compression';
 import { corsOptions } from './config/cors';
 import router from './routes';
 import ApiError from './utils/api-error';
-import { errorConverter, errorHandler } from './middlewares/error.middleware';
+import { errorConverter, errorHandler } from './middlewares/error-handler.middleware';
 import config from './config/config';
 import path from 'path';
 import chalk from 'chalk';
@@ -28,7 +28,7 @@ app.set('env', config.env);
 // Middleware
 app.use(compression())
 app.use(helmet())
-app.use(cors(corsOptions('*')))
+app.use(cors(corsOptions(config.corsWhitelist)))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

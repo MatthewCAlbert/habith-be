@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import MqttHandler from '../config/mqtt';
 import { User } from '../data/entities/user.entity';
@@ -15,3 +15,9 @@ type ControllerHandler<T = any> = {( req: express.Request, res: express.Response
 export interface IController {
     [x: string]: ControllerHandler
 }
+
+export type RouterMap = {
+    method: 'get' | 'post' | 'put' | 'patch' | 'delete';
+    endpoint: string;
+    handlers: RequestHandler[]
+}[]

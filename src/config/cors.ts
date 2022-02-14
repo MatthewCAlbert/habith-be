@@ -4,10 +4,17 @@ export const corsOptions = ( whitelist: string | string[] = '*' ): CorsOptions =
     return {
         origin: (origin, callback) => {
             if( typeof whitelist !== 'string' ){
-                if (whitelist.indexOf(String(whitelist)) !== -1) callback(null, true); else callback(null, false);
+                if (whitelist.indexOf(String(origin)) !== -1) callback(null, true); 
+                else callback(null, false);
             }else{
-                if( whitelist === origin || whitelist === '*' ) callback(null, true);
-                else callback(null, true);
+                const whitelistSplit = whitelist.split(',');
+                if ( whitelistSplit.length > 1 ) {
+                    if (whitelistSplit.indexOf(String(origin)) !== -1) callback(null, true); 
+                    else callback(null, false);
+                } else {
+                    if( whitelist === origin || whitelist === '*' ) callback(null, true);
+                    else callback(null, true);
+                }
             }
         },
         preflightContinue: true,

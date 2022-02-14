@@ -5,7 +5,7 @@ import { User } from '../data/entities/user.entity';
 import { Connection } from 'typeorm';
 import faker from '@faker-js/faker';
 
-jest.setTimeout(1000);
+jest.setTimeout(3000);
 const request = supertest(app);
 
 describe('Habit Activity', () => {

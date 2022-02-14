@@ -38,7 +38,9 @@ export class User extends BaseEntity implements IUser {
 
     toDomain() {
         return {
+            id: this.id,
             username: this.username,
+            name: this.name,
             email: this.email,
             created_at: this.created_at,
             updated_at: this.updated_at

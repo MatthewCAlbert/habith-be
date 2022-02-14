@@ -110,7 +110,7 @@ describe('Habit Activity', () => {
 
     // Habit History
 
-    let habitHistoryIds: string[] = [];
+    const habitHistoryIds: string[] = [];
 
     it('Create habit history', (done) => {
         request.post(`/v1/habit/${habitId}/history`).set('Authorization',`${token}`).send({

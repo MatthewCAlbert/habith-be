@@ -1,6 +1,6 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import BaseEntity from './base.entity';
-import { Habit } from './habit.entity';
+import BaseEntity, { BaseDto } from './base.entity';
+import { Habit, HabitDto } from './habit.entity';
 
 interface IUser {
     username: string;
@@ -8,6 +8,10 @@ interface IUser {
     name: string;
     hash: string;
     salt: string;
+}
+
+export interface UserDto extends IUser, BaseDto {
+    habits?: HabitDto[]
 }
 
 @Entity()
@@ -27,6 +31,17 @@ export class User extends BaseEntity implements IUser {
     @Column()
         salt: string;
 
-    @OneToMany(() => Habit, habit => habit.user)
+    @OneToMany(() => Habit, habit => habit.user, {
+        cascade: true
+    })
         habits: Habit[];
+
+    toDomain() {
+        return {
+            username: this.username,
+            email: this.email,
+            created_at: this.created_at,
+            updated_at: this.updated_at
+        }
+    }
 }

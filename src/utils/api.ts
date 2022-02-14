@@ -1,4 +1,5 @@
 import express from 'express';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 type ApiResponse = {
   statusCode?: number;
@@ -8,8 +9,8 @@ type ApiResponse = {
 }
 
 export const sendResponse = (res: express.Response, data: ApiResponse)=>{
-    const statusCode = data?.statusCode || 200;
-    const message = data?.message || '';
+    const statusCode = data?.statusCode || StatusCodes.OK;
+    const message = data?.message || getReasonPhrase(statusCode);
     const success = data['success'] !== undefined ? data?.success : true;
 
     res.status(statusCode).json({

@@ -1,21 +1,8 @@
 import httpStatus from 'http-status';
-import { reduceObject } from '../utils/common';
+import { stripObjectKeys } from '../utils/common';
 import { User } from '../data/entities/user.entity';
 import ApiError from '../utils/api-error';
 import jwt from '../utils/jwt';
-
-const sanitizeUserProfile = ( user: Record<string, any> )=>{
-    const sanitizedUser: Record<string, any> = {};
-    for( const key in user ){
-        if( !['hash', 'salt'].includes(key) )
-            sanitizedUser[key] = user[key];
-    }
-    return sanitizedUser;
-}
-
-export const getUserProfileService = (user: User)=>{
-    return sanitizeUserProfile(user);
-}
 
 export const loginService = async (username: string, email: string, password: string): Promise<{
   user: any, 
@@ -23,7 +10,7 @@ export const loginService = async (username: string, email: string, password: st
   expiresIn: string 
 }>=>{
     return new Promise((resolve, reject)=>{
-        User.findOne({...(reduceObject({ username, email }))})
+        User.findOne({...(stripObjectKeys({ username, email }))})
             .then((user)=>{
                 if(!user){
                     return reject(new ApiError(httpStatus.UNAUTHORIZED, 'user not found'))
@@ -34,7 +21,7 @@ export const loginService = async (username: string, email: string, password: st
                 if(isValid){
                     const tokenObj = jwt.issueJWT(user);
                     resolve({ 
-                        user: sanitizeUserProfile(user), 
+                        user: user.toDomain(), 
                         token: tokenObj.token, 
                         expiresIn: tokenObj.expires 
                     })  
@@ -73,7 +60,7 @@ export const changePasswordService = async (user: User, body: { oldPassword: str
 export const registerUserService = async (body: { password: string, name: string, username: string, email: string })=>{
     const { email, username, name, password } = body;
 
-    if ( await User.findOne(reduceObject({username, email})) ) {
+    if ( await User.findOne(stripObjectKeys({username, email})) ) {
         throw new ApiError(httpStatus.FORBIDDEN, 'User already exists');
     }
 
@@ -107,5 +94,5 @@ export const updateUserProfileService = async (user: User, body: {
     if ( name )
         user.name = name;
     await user.save();
-    return sanitizeUserProfile(user);
+    return user.toDomain();
 }

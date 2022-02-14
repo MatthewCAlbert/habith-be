@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node .",
     "watch-static": "nodemon --watch src/public --exec npm run copy-static-assets",
-    "dev": "cross-env NODE_ENV=development concurrently \"ts-node-dev --respawn --transpile-only ./src/server.ts\" \"npm:watch-static\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"ts-node-dev --respawn --transpile-only -r tsconfig-paths/register ./src/server.ts\" \"npm:watch-static\"",
     "build-ts": "tsc",
     "build": "cross-env NODE_ENV=production npm run build-ts && npm run copy-static-assets",
     "build:dev": "cross-env NODE_ENV=development npm run build-ts && npm run copy-static-assets",

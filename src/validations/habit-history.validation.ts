@@ -3,22 +3,30 @@ import Joi from 'joi';
 const habitHistorySchemas = {
 
     createOne: {
+        params: Joi.object({
+            id: Joi.string().uuid().required()
+        }),
         body: Joi.object({
             date: Joi.date().required(),
-            habitId: Joi.string().uuid().required(),
             value: Joi.number().required()
         })
     },
 
-    getOneById: {
-        query: Joi.object({
+    getManyByHabitId: {
+        params: Joi.object({
             id: Joi.string().uuid().required()
         })
     },
 
+    getOneById: {
+        params: Joi.object({
+            historyId: Joi.string().uuid().required()
+        })
+    },
+
     updateOneById: {
-        query: Joi.object({
-            id: Joi.string().uuid().required()
+        params: Joi.object({
+            historyId: Joi.string().uuid().required()
         }),
         body: Joi.object({
             value: Joi.number().required()
@@ -26,8 +34,8 @@ const habitHistorySchemas = {
     },
 
     deleteOneById: {
-        query: Joi.object({
-            id: Joi.string().uuid().required()
+        params: Joi.object({
+            historyId: Joi.string().uuid().required()
         })
     },
 

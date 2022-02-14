@@ -50,7 +50,7 @@ app.set('trust proxy', true);
 
 // Handle Not Found
 app.use((req, res, next) => {
-    next(new ApiError(StatusCodes.NOT_FOUND));
+    next(new ApiError(StatusCodes.NOT_FOUND, 'Route not found'));
 });
 
 // Handle Stack Trace

@@ -1,10 +1,10 @@
 import HabitController from '../controllers/habit.controller';
 import habitHistorySchemas from '../validations/habit-history.validation';
 import habitSchemas from '../validations/habit.validation';
-import AuthController from '../controllers/auth.controller';
 import jwtTokenMiddleware from '../middlewares/jwttoken.middleware';
 import validator from '../middlewares/validator.middleware';
 import { RouterMap } from '../types/express';
+import HabitHistoryController from '@/controllers/habit-history.controller';
 
 // Habit Routes /v1/habit
 const habitRoutes: RouterMap = [
@@ -21,9 +21,17 @@ const habitRoutes: RouterMap = [
         method: 'get',
         endpoint: '/',
         handlers: [
+            jwtTokenMiddleware, 
+            HabitController.getManyByUserId
+        ]
+    },
+    {
+        method: 'get',
+        endpoint: '/:id',
+        handlers: [
             validator(habitSchemas.getOneById),
             jwtTokenMiddleware, 
-            AuthController.profile
+            HabitController.getOne
         ]
     },
     {
@@ -32,7 +40,7 @@ const habitRoutes: RouterMap = [
         handlers: [
             validator(habitSchemas.updateOneById),
             jwtTokenMiddleware, 
-            AuthController.profile
+            HabitController.updateOne
         ]
     },
     {
@@ -41,7 +49,7 @@ const habitRoutes: RouterMap = [
         handlers: [
             validator(habitSchemas.deleteOneById),
             jwtTokenMiddleware, 
-            AuthController.profile
+            HabitController.deleteOne
         ]
     },
     {
@@ -49,35 +57,46 @@ const habitRoutes: RouterMap = [
         endpoint: '/:id/history',
         handlers: [
             validator(habitHistorySchemas.createOne),
-            jwtTokenMiddleware, 
-            AuthController.profile
+            jwtTokenMiddleware,
+            HabitController.checkHabitOwnership,
+            HabitHistoryController.createOne
         ]
     },
     {
         method: 'get',
-        endpoint: '/history/:id',
+        endpoint: '/:id/history',
+        handlers: [
+            validator(habitHistorySchemas.getManyByHabitId),
+            jwtTokenMiddleware,
+            HabitController.checkHabitOwnership,
+            HabitHistoryController.getManyByHabitId
+        ]
+    },
+    {
+        method: 'get',
+        endpoint: '/history/:historyId',
         handlers: [
             validator(habitHistorySchemas.getOneById),
-            jwtTokenMiddleware, 
-            AuthController.profile
+            jwtTokenMiddleware,
+            HabitHistoryController.getOneById
         ]
     },
     {
         method: 'delete',
-        endpoint: '/history/:id',
+        endpoint: '/history/:historyId',
         handlers: [
             validator(habitHistorySchemas.deleteOneById),
-            jwtTokenMiddleware, 
-            AuthController.profile
+            jwtTokenMiddleware,
+            HabitHistoryController.deleteOne
         ]
     },
     {
         method: 'put',
-        endpoint: '/history/:id',
+        endpoint: '/history/:historyId',
         handlers: [
             validator(habitHistorySchemas.updateOneById),
-            jwtTokenMiddleware, 
-            AuthController.profile
+            jwtTokenMiddleware,
+            HabitHistoryController.updateOne
         ]
     },
 ];

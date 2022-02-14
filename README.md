@@ -15,7 +15,7 @@ Monolithic Backend for Rapid Development Only
 
 ## TODO
 
-- [ ] Main function finish
+- [x] Main function finish
 - [ ] Add Refresh Token
 - [ ] Working Swagger Autogenerate
 - [ ] Fix CI test
@@ -57,3 +57,7 @@ Monolithic Backend for Rapid Development Only
 - Don't forget to setup any required environment for CockroachDB
 - Run `yarn build` to get distributon js files
 - Run `yarn start` to start dist server
+
+## Additionals
+
+- You can convert this project to fastify by following this guide https://www.fastify.io/docs/latest/Reference/Middleware/

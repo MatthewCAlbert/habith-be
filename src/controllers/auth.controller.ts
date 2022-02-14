@@ -1,8 +1,7 @@
 import express from 'express';
-import httpStatus from 'http-status';
 import { User } from '../data/entities/user.entity';
 import {sendResponse} from '../utils/api';
-import { changePasswordService, getUserProfileService, loginService, registerUserService, updateUserProfileService } from '../services/auth.service';
+import { changePasswordService, loginService, registerUserService, updateUserProfileService } from '../services/auth.service';
 
 class AuthController {
 
@@ -10,7 +9,7 @@ class AuthController {
         const user: User = req.user;
         return sendResponse(res, { message: '', 
             data: {
-                user: getUserProfileService(user)
+                user: user.toDomain()
             }
         });
     }

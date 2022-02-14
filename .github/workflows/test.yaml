@@ -16,6 +16,7 @@ env:
   PG_CONN_STRING: ${{ secrets.PG_STRING }}
   COCKROACH_CLUSTER_NAME: ${{ secrets.COCKROACH_CLUSTER_NAME }}
   PG_ROOT_CA: ${{ secrets.PG_ROOT_CA }}
+  JEST_TESTING_TIMEOUT: 3000
 
 jobs:
   test-server:
@@ -38,7 +39,7 @@ jobs:
       - name: Prepare Environment
         uses: CallePuzzle/envvar-to-dotenv-action@v1.0.0
         with:
-          variableNames: NODE_ENV,JWT_SECRET,JWT_ACCESS_EXPIRATION,PG_CONN_STRING,COCKROACH_CLUSTER_NAME,PG_ROOT_CA
+          variableNames: NODE_ENV,JWT_SECRET,JWT_ACCESS_EXPIRATION,PG_CONN_STRING,COCKROACH_CLUSTER_NAME,PG_ROOT_CA,JEST_TESTING_TIMEOUT
 
       - name: Test
         run: yarn run test

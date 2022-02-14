@@ -5,7 +5,7 @@ import { User } from '../data/entities/user.entity';
 import { Connection } from 'typeorm';
 import faker from '@faker-js/faker';
 
-jest.setTimeout(1000);
+jest.setTimeout(parseInt(String(process.env.JEST_TESTING_TIMEOUT)));
 const request = supertest(app);
 
 describe('Auth Activity', () => {

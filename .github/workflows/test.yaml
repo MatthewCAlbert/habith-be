@@ -46,7 +46,7 @@ jobs:
 
       - name: Build
         run: |
-          echo ${{ secrets.PG_ROOT_CA }} > root.crt
           yarn run build
+
       - name: Post Build Test
         run: yarn run test:build

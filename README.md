@@ -18,7 +18,7 @@ Monolithic Backend for Rapid Development Only
 - [x] Main function finish
 - [ ] Add Refresh Token
 - [ ] Working Swagger Autogenerate
-- [ ] Fix CI test
+- [x] Fix CI test
 - [ ] Add Continuous Deployment to Server
 - [ ] Refactor Code + Standardization
 

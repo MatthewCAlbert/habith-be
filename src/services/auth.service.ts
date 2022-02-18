@@ -94,5 +94,7 @@ export const updateUserProfileService = async (user: User, body: {
     if ( name )
         user.name = name;
     await user.save();
-    return user.toDomain();
+    return {
+        user: user.toDomain()
+    };
 }

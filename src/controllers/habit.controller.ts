@@ -4,6 +4,7 @@ import HabitService from '../services/habit.service';
 import { IHabit } from '../data/entities/habit.entity';
 import ApiError from '../utils/api-error';
 import { StatusCodes } from 'http-status-codes';
+import { User } from '../data/entities/user.entity';
 
 const HabitController: IController = {
 
@@ -11,7 +12,7 @@ const HabitController: IController = {
         const { habitId } = req.body;
         const { id, habitId: habitIdParam } = req.params;
 
-        if ( !(await HabitService.getOneById(req.user, habitId || id || habitIdParam || '', false)) ) {
+        if ( !(await HabitService.getOneById(req.user as User, habitId || id || habitIdParam || '', false)) ) {
             throw new ApiError(StatusCodes.FORBIDDEN, 'This habit wasn\'t owned by this user');
         }
         
@@ -19,7 +20,7 @@ const HabitController: IController = {
     },
 
     createOne: async (req, res, next) => {
-        const habit = await HabitService.createOne(req.user, req.body);
+        const habit = await HabitService.createOne(req.user as User, req.body);
         return sendResponse(res, {
             data: habit
         })
@@ -27,7 +28,7 @@ const HabitController: IController = {
 
     getManyByUserId: async (req, res, next) => {
         const { withHistory } = req.query;
-        const habits = await HabitService.getManyByUserId(req.user?.id, Boolean(withHistory));
+        const habits = await HabitService.getManyByUserId((req.user as User)?.id, Boolean(withHistory));
         return sendResponse(res, {
             data: habits
         })
@@ -36,7 +37,7 @@ const HabitController: IController = {
     getOne: async (req, res, next) => {
         const { id } = req.params;
         const { withHistory } = req.query;
-        const habit = await HabitService.getOneById(req.user, id, Boolean(withHistory));
+        const habit = await HabitService.getOneById(req.user as User, id, Boolean(withHistory));
         return sendResponse(res, {
             data: habit && habit.toDomain()
         })
@@ -55,7 +56,7 @@ const HabitController: IController = {
             repeat_every_day,
             repeat_on 
         }: IHabit = req.body;
-        const habit: any = await HabitService.getOneById(req.user, id, false);
+        const habit: any = await HabitService.getOneById(req.user as User, id, false);
         
         const update: any = { title, category, description, target, target_type, start, end, repeat_every_day, repeat_on };
 
@@ -71,7 +72,7 @@ const HabitController: IController = {
 
     deleteOne: async (req, res, next) => {
         const { id } = req.params;
-        const { affected } = await HabitService.deleteOne(req.user, id);
+        const { affected } = await HabitService.deleteOne(req.user as User, id);
         if ( affected && affected > 0 ) 
             return sendResponse(res, {});
         else

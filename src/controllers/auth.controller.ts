@@ -6,7 +6,7 @@ import { changePasswordService, loginService, registerUserService, updateUserPro
 class AuthController {
 
     static profile(req: express.Request, res: express.Response) {
-        const user: User = req.user;
+        const user: User = req.user as User;
         return sendResponse(res, { message: '', 
             data: {
                 user: user.toDomain()
@@ -23,7 +23,7 @@ class AuthController {
     }
 
     static async changePassword(req: express.Request, res: express.Response, next: express.NextFunction) {
-        changePasswordService(req.user, req.body).then((response)=>{
+        changePasswordService(req.user as User, req.body).then((response)=>{
             sendResponse( res, {
                 data: response
             })
@@ -31,7 +31,7 @@ class AuthController {
     }
 
     static async updateProfile(req: express.Request, res: express.Response, next: express.NextFunction) {
-        updateUserProfileService(req.user, req.body).then((response)=>{
+        updateUserProfileService(req.user as User, req.body).then((response)=>{
             sendResponse( res, {
                 data: response
             })

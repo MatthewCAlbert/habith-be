@@ -40,7 +40,7 @@ const HabitHistoryController: IController = {
         const { historyId } = req.params;
 
         const habitHistory = await HabitHistoryService.getOneById(historyId);
-        checkHabitOwnership(req.user, habitHistory.habitId);
+        checkHabitOwnership(req.user as User, habitHistory.habitId);
 
         return sendResponse(res, {
             data: habitHistory && habitHistory.toDomain()
@@ -52,7 +52,7 @@ const HabitHistoryController: IController = {
         const { value } = req.body;
 
         const habitHistory = await HabitHistoryService.getOneById(historyId);
-        checkHabitOwnership(req.user, habitHistory.habitId);
+        checkHabitOwnership(req.user as User, habitHistory.habitId);
         habitHistory.value = value;
 
         const updated = await HabitHistoryService.updateOne(habitHistory);
@@ -65,7 +65,7 @@ const HabitHistoryController: IController = {
         const { historyId } = req.params;
 
         const habitHistory = await HabitHistoryService.getOneById(historyId);
-        checkHabitOwnership(req.user, habitHistory.habitId);
+        checkHabitOwnership(req.user as User, habitHistory.habitId);
 
         const { affected } = await HabitHistoryService.deleteOne(historyId);
         if ( affected && affected > 0 ) 
